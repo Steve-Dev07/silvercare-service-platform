@@ -1,3 +1,5 @@
+<%@ page import="com.silvercare.dto.ServiceCategoryDTO" %>
+<%@ page import="com.silvercare.service.ServiceCategoryManager" %>
 <style>
   .nav-item, .navbar-brand {
     padding-right: 20px;
@@ -37,8 +39,15 @@
           <ul class="dropdown-menu">
             <li><a class="dropdown-item" href="#">All service categories</a></li>
             <li><hr class="dropdown-divider"></li>
-            <!-- TODO: add dynamic service category list from database -->
-            <li><a class="dropdown-item" href="#">Example service</a></li>
+            <!-- dynamically adds service categories names and links under drop down list -->
+            <%
+            	var serviceCategoriesList = ServiceCategoryManager.getAllServiceCategories();
+            	for(ServiceCategoryDTO serviceCategory : serviceCategoriesList) {
+            		String name = serviceCategory.getName();
+            		out.println("<li><a class=\"dropdown-item\" href=\"./serviceCategory.jsp?name=\""
+            				+ name + "\">" + name + "</a></li>");
+            	}
+            %>
           </ul>
         </li>
 
