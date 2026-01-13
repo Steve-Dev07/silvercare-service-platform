@@ -1,10 +1,12 @@
 package com.silvercare.dao;
 
 import com.silvercare.dto.UserRegisterDTO;
+import com.silvercare.dto.UserLoginDTO;
 import com.silvercare.util.Db;
 import com.silvercare.util.OperationResponse;
 
 import java.sql.*;
+import java.util.*;
 
 public class UserDAO {
 	public static OperationResponse insertNewUser(UserRegisterDTO userRegisterData) {
@@ -65,5 +67,47 @@ public class UserDAO {
 		}
 		
 		return new OperationResponse(success, code, newUserId);
+	}
+	
+	public static OperationResponse selectUserByUsername(UserLoginDTO userLoginData) {
+		boolean success = false;
+		String code = "";
+		String message = "";
+		Map<String, Object> responseData = new HashMap<>();
+		
+		try {
+			Connection conn = Db.getConnection();
+			String sqlStatement = "SELECT id, display_name, password FROM user "
+					+ "WHERE username = ? LIMIT 1";
+			PreparedStatement stmt = conn.prepareStatement(sqlStatement);
+			
+			stmt.setString(1, userLoginData.getUsername());
+			
+			ResultSet rs = stmt.executeQuery();
+			
+			if(rs.next()) {
+				success = true;
+				code = "SUCCESS_USER_RETRIEVE";
+				
+				responseData.put("userId", rs.getInt("id"));
+				responseData.put("hash", rs.getString("password"));
+				responseData.put("displayName", rs.getString("display_name"));
+			} else {
+				success = false;
+				code = "ERR_USER_RETRIEVE_NOT_FOUND";
+			}
+			
+			conn.close();
+		} catch (SQLException e) {
+	        System.out.println("SQLException at UserDAO.selectUserByUsername");
+	        System.out.println("SQL Error Code: " + e.getErrorCode());
+	        System.out.println("SQL State: " + e.getSQLState());
+	        System.out.println("SQL Message: " + e.getMessage());
+
+			success = false;
+			code = "ERR_USER_RETRIEVE_UNKNOWN";
+		}
+		
+		return new OperationResponse(success, code, message, responseData);
 	}
 }
