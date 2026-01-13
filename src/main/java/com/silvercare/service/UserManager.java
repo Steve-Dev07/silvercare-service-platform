@@ -13,7 +13,6 @@ public class UserManager {
 		boolean success = false;
 		String message = "";
 		String code = "";
-		Integer newUserId = null;
 		
 
         if (displayName == null || displayName.isEmpty()) {
@@ -38,7 +37,6 @@ public class UserManager {
 		if(registerSqlResponse.isSuccess()) {
 			success = true;
 			message = "Redirecting to homepage...";
-			newUserId = (Integer) registerSqlResponse.getData();
 		} else {
 			success = false;
 			if(registerSqlResponse.getCode().equals("ERR_USER_REGISTER_DUPLICATE_USERNAME")) {
@@ -50,7 +48,7 @@ public class UserManager {
 			}
 		}
 		
-		return new OperationResponse(success, code, message, newUserId);
+		return new OperationResponse(success, code, message, registerSqlResponse.getData());
 	}
 	
 	public static OperationResponse verifyUserLogin(String username, String password) {

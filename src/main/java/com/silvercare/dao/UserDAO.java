@@ -12,7 +12,7 @@ public class UserDAO {
 	public static OperationResponse insertNewUser(UserRegisterDTO userRegisterData) {
 		boolean success = false;
 		String code = "";
-		Integer newUserId = null;
+		Map<String, Integer> userData = new HashMap<>();
 		
 		try {
 			Connection conn = Db.getConnection();
@@ -32,7 +32,8 @@ public class UserDAO {
 				code = "SUCCESS_USER_REGISTER";
 				ResultSet rs = stmt.getGeneratedKeys();
 				if(rs.next()) {
-					newUserId = rs.getInt(1);
+					userData.put("newUserId", rs.getInt(1));
+					userData.put("roleId", 1);
 				}
 			} else {
 				success = false;
@@ -66,7 +67,7 @@ public class UserDAO {
 			e.printStackTrace();
 		}
 		
-		return new OperationResponse(success, code, newUserId);
+		return new OperationResponse(success, code, userData);
 	}
 	
 	public static OperationResponse selectUserByUsername(UserLoginDTO userLoginData) {
@@ -77,7 +78,7 @@ public class UserDAO {
 		
 		try {
 			Connection conn = Db.getConnection();
-			String sqlStatement = "SELECT id, display_name, password FROM user "
+			String sqlStatement = "SELECT id, display_name, password, role_id FROM user "
 					+ "WHERE username = ? LIMIT 1";
 			PreparedStatement stmt = conn.prepareStatement(sqlStatement);
 			
@@ -90,6 +91,7 @@ public class UserDAO {
 				code = "SUCCESS_USER_RETRIEVE";
 				
 				responseData.put("userId", rs.getInt("id"));
+				responseData.put("roleId", rs.getInt("role_id"));
 				responseData.put("hash", rs.getString("password"));
 				responseData.put("displayName", rs.getString("display_name"));
 			} else {

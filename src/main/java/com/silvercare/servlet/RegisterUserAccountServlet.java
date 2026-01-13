@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Map;
 
 import com.silvercare.service.UserManager;
 
@@ -27,6 +28,7 @@ public class RegisterUserAccountServlet extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
+	@SuppressWarnings("unchecked")
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String username = request.getParameter("username");
 		String email = request.getParameter("email");
@@ -40,7 +42,8 @@ public class RegisterUserAccountServlet extends HttpServlet {
 		session.setAttribute("message", registerResponse.getMessage());
 
 		if(registerResponse.isSuccess()) {
-			session.setAttribute("userId", registerResponse.getData());
+			session.setAttribute("userId", ((Map<String, Object>) registerResponse.getData()).get("newUserId"));
+			session.setAttribute("roleId", ((Map<String, Object>) registerResponse.getData()).get("roleId"));
 			session.setAttribute("displayName", displayName);
 		}
 		

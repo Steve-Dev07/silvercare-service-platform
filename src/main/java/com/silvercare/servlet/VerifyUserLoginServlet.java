@@ -42,6 +42,7 @@ public class VerifyUserLoginServlet extends HttpServlet {
 
 		if(loginResponse.isSuccess()) {
 			session.setAttribute("userId", ((Map<String, Object>) loginResponse.getData()).get("userId"));
+			session.setAttribute("roleId", ((Map<String, Object>) loginResponse.getData()).get("roleId"));
 			session.setAttribute("displayName", ((Map<String, Object>) loginResponse.getData()).get("displayName"));
 		}
 		
