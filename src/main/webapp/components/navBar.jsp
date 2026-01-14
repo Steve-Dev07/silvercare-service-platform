@@ -1,5 +1,5 @@
 <%@ page import="com.silvercare.dto.ServiceCategoryDTO" %>
-<%@ page import="com.silvercare.service.ServiceCategoryManager" %>
+<%@ page import="com.silvercare.controller.ServiceCategoryController" %>
 <style>
   .nav-item, .navbar-brand {
     padding-right: 20px;
@@ -27,13 +27,13 @@
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 
         <li class="nav-item">
-          <a class="nav-link <%= request.getRequestURI().endsWith("index.jsp") ? "active" : "" %>" href="./index.jsp">
+          <a class="nav-link <%=request.getRequestURI().endsWith("index.jsp") ? "active" : ""%>" href="./index.jsp">
             <i class="bi bi-house"></i>&ensp;&nbsp;Home
           </a>
         </li>
 
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle <%= request.getRequestURI().endsWith("serviceCategories.jsp") ? "active" : "" %>" role="button" data-bs-toggle="dropdown">
+          <a class="nav-link dropdown-toggle <%=request.getRequestURI().endsWith("serviceCategories.jsp") ? "active" : ""%>" role="button" data-bs-toggle="dropdown">
             <i class="bi bi-postcard-heart"></i>&ensp;&nbsp;Care Services
           </a>
           <ul class="dropdown-menu">
@@ -41,12 +41,12 @@
             <li><hr class="dropdown-divider"></li>
             <!-- dynamically adds service categories names and links under drop down list -->
             <%
-            	var serviceCategoriesList = ServiceCategoryManager.getAllServiceCategories();
-            	for(ServiceCategoryDTO serviceCategory : serviceCategoriesList) {
-            		String name = serviceCategory.getName();
-            		out.println("<li><a class=\"dropdown-item\" href=\"./serviceCategory.jsp?name=\""
-            				+ name + "\">" + name + "</a></li>");
-            	}
+            var serviceCategoriesList = ServiceCategoryController.getAllServiceCategories();
+               	for(ServiceCategoryDTO serviceCategory : serviceCategoriesList) {
+               		String name = serviceCategory.getName();
+               		out.println("<li><a class=\"dropdown-item\" href=\"./serviceCategory.jsp?name=\""
+               				+ name + "\">" + name + "</a></li>");
+               	}
             %>
           </ul>
         </li>

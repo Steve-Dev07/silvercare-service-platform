@@ -6,10 +6,9 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
-
-import com.silvercare.service.UserManager;
-
 import java.util.*;
+
+import com.silvercare.controller.UserController;
 
 /**
  * Servlet implementation class LoginUserAccountServlet
@@ -34,7 +33,7 @@ public class VerifyUserLoginServlet extends HttpServlet {
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
 		
-		var loginResponse = UserManager.verifyUserLogin(username, password);
+		var loginResponse = UserController.verifyUserLogin(username, password);
 		var session = request.getSession();
 		
 		session.setAttribute("loginSuccess", loginResponse.isSuccess());

@@ -8,7 +8,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Map;
 
-import com.silvercare.service.UserManager;
+import com.silvercare.controller.UserController;
 
 /**
  * Servlet implementation class RegisterUserAccountServlet
@@ -35,7 +35,7 @@ public class RegisterUserAccountServlet extends HttpServlet {
 		String displayName = request.getParameter("displayName");
 		String password = request.getParameter("password");
 		
-		var registerResponse = UserManager.registerNewUser(username, email, displayName, password);
+		var registerResponse = UserController.registerNewUser(username, email, displayName, password);
 		var session = request.getSession();
 		
 		session.setAttribute("registerSuccess", registerResponse.isSuccess());

@@ -1,4 +1,4 @@
-package com.silvercare.service;
+package com.silvercare.controller;
 
 import com.silvercare.dao.UserDAO;
 import com.silvercare.dto.UserLoginDTO;
@@ -8,7 +8,7 @@ import com.silvercare.util.PasswordUtil;
 
 import java.util.*;
 
-public class UserManager {
+public class UserController {
 	public static OperationResponse registerNewUser(String username, String email, String displayName, String password) {
 		boolean success = false;
 		String message = "";
