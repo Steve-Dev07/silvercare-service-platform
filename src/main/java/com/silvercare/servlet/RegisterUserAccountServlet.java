@@ -44,7 +44,7 @@ public class RegisterUserAccountServlet extends HttpServlet {
 		if(registerResponse.isSuccess()) {
 			session.setAttribute("userId", ((Map<String, Object>) registerResponse.getData()).get("newUserId"));
 			session.setAttribute("roleId", ((Map<String, Object>) registerResponse.getData()).get("roleId"));
-			session.setAttribute("displayName", displayName);
+			session.setAttribute("displayName", (displayName == null || displayName.isEmpty()) ? username : displayName);
 		}
 		
 		response.sendRedirect(request.getContextPath() + "/register.jsp");
