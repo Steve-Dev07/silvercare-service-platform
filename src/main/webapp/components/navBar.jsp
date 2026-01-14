@@ -37,7 +37,7 @@
             <i class="bi bi-postcard-heart"></i>&ensp;&nbsp;Care Services
           </a>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">All service categories</a></li>
+            <li><a class="dropdown-item" href="<%= request.getContextPath() %>/serviceCategories.jsp">All service categories</a></li>
             <li><hr class="dropdown-divider"></li>
             <!-- dynamically adds service categories names and links under drop down list -->
             <%
