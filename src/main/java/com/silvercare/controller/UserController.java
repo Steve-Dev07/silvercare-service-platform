@@ -3,6 +3,7 @@ package com.silvercare.controller;
 import com.silvercare.dao.UserDAO;
 import com.silvercare.dto.UserLoginDTO;
 import com.silvercare.dto.UserRegisterDTO;
+import com.silvercare.dto.UserUpdateDTO;
 import com.silvercare.util.OperationResponse;
 import com.silvercare.util.PasswordUtil;
 
@@ -94,5 +95,68 @@ public class UserController {
 		}
 		
 		return new OperationResponse(success, code, message, selectUserSqlResponse.getData());
+	}
+	
+	public static UserUpdateDTO getUserProfileDataById(Integer userId) {
+		return UserDAO.selectUserProfileById(userId);
+	}
+	
+	public static OperationResponse updateUserProfile(String username, String email, String displayName, int userId) {
+		boolean success = false;
+		String code = "";
+		String message = "";
+		
+        if (displayName == null || displayName.isEmpty()) {
+            displayName = username;
+        }
+        
+        if(!username.matches("^[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*$") || username.length() < 8 || username.length() > 32) {
+        	success = false;
+        	message = "Invalid username format, please try again.";
+        }
+
+		var userUpdateData = new UserUpdateDTO(userId, username, displayName, email);
+		
+		OperationResponse updateSqlResponse = UserDAO.updateUserById(userUpdateData);
+		code = updateSqlResponse.getCode();
+		
+		if(updateSqlResponse.isSuccess()) {
+			success = true;
+			message = "Refreshing user profile...";
+		} else {
+			success = false;
+			if(updateSqlResponse.getCode().equals("ERR_USER_UPDATE_DUPLICATE_USERNAME")) {
+				message = "Username already exists. Please try again.";
+			} else if (updateSqlResponse.getCode().equals("ERR_USER_UPDATE_DUPLICATE_EMAIL")) {
+				message = "Email already exists. Please try again.";
+			} else {
+				message = "Unknown error occurred. Please try again.";
+			}
+		}
+		
+		return new OperationResponse(success, code, message, null);
+	}
+	
+	public static OperationResponse updateUserPassword(String oldPassword, String newPassword, Integer userId) {
+		boolean success = false;
+		String code = "";
+		String message = "";
+		
+		OperationResponse updateSqlResponse = UserDAO.updateUserPasswordById(oldPassword, newPassword, userId);
+		code = updateSqlResponse.getCode();
+		
+		if(updateSqlResponse.isSuccess()) {
+			success = true;
+			message = "Refreshing user profile...";
+		} else {
+			success = false;
+			if(updateSqlResponse.getCode().equals("ERR_USER_PASSWORD_UPDATE_INCORRECT_PASSWORD")) {
+				message = "Current password is incorrect. Please try again.";
+			} else {
+				message = "Unknown error occurred. Please try again.";
+			}
+		}
+		
+		return new OperationResponse(success, code, message, null);
 	}
 }
