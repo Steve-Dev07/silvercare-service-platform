@@ -12,7 +12,7 @@
 
 <!-- navbar for client pages (sticked to top) -->
 <!-- to be used with jsp:include by other JSP files -->
-<nav class="navbar navbar-expand-lg" style="background-color: #e8e9ea; position: sticky; top: 0;">
+<nav class="navbar navbar-expand-lg" style="background-color: #e8e9ea; position: sticky; top: 0; z-index: 1055;">
   <div class="container-fluid mx-5">
     <a class="navbar-brand d-flex align-items-center" href="./index.jsp">
       <img src="./img/silvercare-logo.png" width="33px" height="33px" class="me-3">
