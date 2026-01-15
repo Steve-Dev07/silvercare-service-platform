@@ -33,7 +33,8 @@
         </li>
 
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle <%=request.getRequestURI().endsWith("serviceCategories.jsp") ? "active" : ""%>" role="button" data-bs-toggle="dropdown">
+          <a class="nav-link dropdown-toggle <%= (request.getRequestURI().endsWith("serviceCategories.jsp") || 
+        		  request.getRequestURI().endsWith("services.jsp")) ? "active" : "" %>" role="button" data-bs-toggle="dropdown">
             <i class="bi bi-postcard-heart"></i>&ensp;&nbsp;Care Services
           </a>
           <ul class="dropdown-menu">
@@ -44,7 +45,7 @@
             var serviceCategoriesList = ServiceCategoryController.getAllServiceCategories();
                	for(ServiceCategoryDTO serviceCategory : serviceCategoriesList) {
                		String name = serviceCategory.getName();
-               		out.println("<li><a class=\"dropdown-item\" href=\"./serviceCategory.jsp?name=\""
+               		out.println("<li><a class=\"dropdown-item\" href=\"./services.jsp?category="
                				+ name + "\">" + name + "</a></li>");
                	}
             %>
