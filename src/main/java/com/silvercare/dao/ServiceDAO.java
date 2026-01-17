@@ -2,6 +2,7 @@ package com.silvercare.dao;
 
 import com.silvercare.dto.ServiceDTO;
 import com.silvercare.util.Db;
+import com.silvercare.util.TimeUtil;
 
 import java.util.*;
 import java.sql.*;
@@ -44,5 +45,46 @@ public class ServiceDAO {
 		}
 		
 		return servicesList;
+	}
+	
+	public static ServiceDTO selectServiceByName(String serviceName) {
+		String name = "";
+		String title = "";
+		String description = "";
+		double price = 0;
+		int imgIndex = 0;
+		String durationStr = "";
+		String createdTime = "";
+		String lastUpdatedTime = "";
+
+		try {
+			Connection conn = Db.getConnection();
+			String sqlStatement = "SELECT name, title, description, price, img_index, duration, created_on, last_updated_on FROM service "
+					+ "WHERE name = ?";
+			PreparedStatement stmt = conn.prepareStatement(sqlStatement);
+			stmt.setString(1, serviceName);
+			
+			ResultSet rs = stmt.executeQuery();
+			
+			if(rs.next()) {
+				name = rs.getString("name");
+				title = rs.getString("title");
+				description = rs.getString("description");
+				price = rs.getFloat("price");
+				imgIndex = rs.getInt("img_index");
+				durationStr = TimeUtil.convertDuration(rs.getInt("duration"));
+				createdTime = TimeUtil.convertDate(rs.getString("created_on"));
+				lastUpdatedTime = TimeUtil.convertDate(rs.getString("last_updated_on"));
+			}
+			
+			conn.close();
+		} catch(SQLException e) {
+	        System.out.println("SQLException at ServiceDAO.selectServicesByName");
+	        System.out.println("SQL Error Code: " + e.getErrorCode());
+	        System.out.println("SQL State: " + e.getSQLState());
+	        System.out.println("SQL Message: " + e.getMessage());
+		}
+		
+		return new ServiceDTO(name, title, description, price, imgIndex, durationStr, createdTime, lastUpdatedTime);
 	}
 }

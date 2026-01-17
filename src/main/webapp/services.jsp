@@ -41,7 +41,7 @@
     
     <div class="container mt-5">
         <div class="row justify-content-center">
-            <h2 class="text-center"><%= pageTitle %></h2>
+            <h3 class="text-center"><b><%= pageTitle %></b></h3>
             <div class="col-9 mt-3 mb-5">
                 <p>
                 	<%= descriptionContent %>
@@ -73,7 +73,7 @@
 				        String name = service.getName();
 				        String title = service.getTitle();
 				        String imgUrl = "./img/service-" + service.getImgIndex() + "-banner.png";
-				        String redirectUrl = "./service.jsp?category=" + service.getName();
+				        String redirectUrl = "./serviceDetails.jsp?name=" + service.getName();
 				
 				        out.print(
 				            "<div class='col-10 col-xl-9'>"

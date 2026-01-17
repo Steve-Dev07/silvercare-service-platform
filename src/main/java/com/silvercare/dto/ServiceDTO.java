@@ -7,6 +7,7 @@ public class ServiceDTO {
     private double price;
     private int imgIndex;
     private int duration;
+    private String durationStr;
     private String createdTime;
     private String lastUpdatedTime;
 
@@ -21,6 +22,18 @@ public class ServiceDTO {
         this.createdTime = createdTime;
         this.lastUpdatedTime = lastUpdatedTime;
     }
+    
+    public ServiceDTO(String name, String title, String description, double price, int imgIndex,
+            String durationStr, String createdTime, String lastUpdatedTime) {
+		this.name = name;
+		this.title = title;
+		this.description = description;
+		this.price = price;
+		this.imgIndex = imgIndex;
+		this.durationStr = durationStr;
+		this.createdTime = createdTime;
+		this.lastUpdatedTime = lastUpdatedTime;
+}	
 
     public String getName() {
         return name;
@@ -70,7 +83,15 @@ public class ServiceDTO {
         this.duration = duration;
     }
 
-    public String getCreatedTime() {
+    public String getDurationStr() {
+		return durationStr;
+	}
+
+	public void setDurationStr(String durationStr) {
+		this.durationStr = durationStr;
+	}
+
+	public String getCreatedTime() {
         return createdTime;
     }
 

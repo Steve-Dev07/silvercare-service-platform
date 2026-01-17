@@ -9,4 +9,8 @@ public class ServiceController {
 	public static List<ServiceDTO> getServicesByCategory(String category) {
 		return ServiceDAO.selectServicesByCategory(category);
 	}
+	
+	public static ServiceDTO getServiceDetailsByName(String serviceName) {
+		return ServiceDAO.selectServiceByName(serviceName);
+	}
 }
