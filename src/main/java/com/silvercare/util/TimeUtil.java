@@ -4,16 +4,18 @@ import java.time.LocalDateTime;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.Locale;
 
 public class TimeUtil {
 
-    private static final DateTimeFormatter INPUT_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    private static final DateTimeFormatter DATE_INPUT_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    private static final DateTimeFormatter DATETIME_INPUT_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
     private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("d MMM yyyy");
-    private static final DateTimeFormatter DATETIME_FORMAT = DateTimeFormatter.ofPattern("d MMM yyyy h:mma");
+    private static final DateTimeFormatter DATETIME_FORMAT = DateTimeFormatter.ofPattern("d MMM yyyy h:mm a").withLocale(Locale.US);
 
     public static String convertDate(String timeString) {
         try {
-            LocalDate date = LocalDateTime.parse(timeString, INPUT_FORMAT).toLocalDate();
+            LocalDate date = LocalDate.parse(timeString, DATE_INPUT_FORMAT);
             return date.format(DATE_FORMAT);
         } catch (DateTimeParseException e) {
             e.printStackTrace();
@@ -23,7 +25,7 @@ public class TimeUtil {
 
     public static String convertDateTime(String timeString) {
         try {
-            LocalDateTime dateTime = LocalDateTime.parse(timeString, INPUT_FORMAT);
+            LocalDateTime dateTime = LocalDateTime.parse(timeString, DATETIME_INPUT_FORMAT);
             return dateTime.format(DATETIME_FORMAT);
         } catch (DateTimeParseException e) {
             e.printStackTrace();
