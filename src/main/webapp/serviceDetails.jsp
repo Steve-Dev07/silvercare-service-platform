@@ -31,6 +31,40 @@
 		String updatedTime = serviceDetails.getLastUpdatedTime();
 		int imgIndex = serviceDetails.getImgIndex();
 	%>
+	
+    <%
+        // checks cart functions were done before refresh and check the cartUpdateSuccess session attribute
+        Boolean cartUpdateSuccess = (Boolean) session.getAttribute("cartUpdateSuccess");
+
+        // initial notification toast properties
+        String notificationColor = "#1D3142";
+        String notificationMessage = "";
+        String notificationTitle = "";
+        String toastVisibility = "d-none";
+
+        // proceeds if cart update was done before and redirected from AddCartItemServlet
+        if (cartUpdateSuccess != null) {
+            String message = (String) session.getAttribute("message");
+            // makes notification visible
+            toastVisibility = "d-block";
+
+            // displays notification depending on cartUpdateSuccess status
+            if (cartUpdateSuccess) {
+                notificationTitle = "Cart Update Successful";
+                notificationColor = "#077307";
+                notificationMessage = "<i class=\"bi bi-arrow-up-right-square-fill\"></i>&ensp;" + message
+                	+ "<br>\n<a href='" + request.getContextPath() + "/cart.jsp'>Go to Cart</a>\n";
+
+            } else {
+                notificationTitle = "Cart Update Failed";
+                notificationColor = "#FF0000";
+                notificationMessage = "<i class=\"bi bi-exclamation-triangle-fill\"></i>&ensp;" + message;
+            }
+
+            // removes the attribute after deciding cart update status
+            session.removeAttribute("cartUpdateSuccess");
+        }
+    %>
 
 	<div class="container py-5">
 	    <div class="row mb-5">
@@ -85,6 +119,24 @@
 			<%
 			    }
 			%>	
+	    </div>
+	</div>
+	
+    <!-- notification toast for cart update status -->
+	<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 1055;">
+	    <div class="toast fade show <%= toastVisibility %>" role="alert" aria-live="assertive" aria-atomic="true">
+	        <div class="toast-header">
+	            <svg aria-hidden="true" class="bd-placeholder-img rounded me-2" 
+	            	height="20" preserveAspectRatio="xMidYMid slice" width="20" xmlns="http://www.w3.org/2000/svg">
+	                <rect width="100%" height="100%" fill="<%= notificationColor %>"></rect>
+	            </svg>
+	            <strong class="me-auto" style="color: <%= notificationColor %>"><%= notificationTitle %></strong>
+	            <small class="text-body-secondary">Just now</small>
+	            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+	        </div>
+	        <div class="toast-body">
+	            <%= notificationMessage %>
+	        </div>
 	    </div>
 	</div>
 
