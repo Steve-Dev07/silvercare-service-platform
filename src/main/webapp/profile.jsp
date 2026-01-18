@@ -2,6 +2,8 @@
     pageEncoding="UTF-8"%>
 <%@ page import="com.silvercare.controller.UserController" %>
 <%@ page import="com.silvercare.dto.UserUpdateDTO" %>
+<%@ page import="com.silvercare.controller.BookingController" %>
+<%@ page import="com.silvercare.dto.BookingDTO" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -275,6 +277,82 @@
                 </div>
             </div>
         </div>
+        
+        <div class="row justify-content-center mt-5">
+            <div class="col-12 col-md-10">
+                <div class="card p-4 shadow-sm">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h5 class="mb-0">
+                            <i class="bi bi-calendar-check-fill"></i>&ensp;My Bookings
+                        </h5>
+
+                    </div>
+
+					<%
+					    var bookingsList = BookingController.getAllBookingsByUserId(sessionUserId);
+					%>			
+					<div class="table-responsive">
+					    <% if (bookingsList != null && !bookingsList.isEmpty()) { %>
+					        <table class="table table-hover align-middle mb-0">
+					            <thead>
+					                <tr>
+					                    <th>#</th>
+					                    <th>Service</th>
+					                    <th>Category</th>
+					                    <th>Appointment Time</th>
+					                    <th>Status</th>
+					                    <th>Total (SGD)</th>
+					                </tr>
+					            </thead>
+					            <tbody>
+					                <%
+					                    int index = 1;
+					                    for (BookingDTO booking : bookingsList) {
+					                %>
+					                    <tr>
+					                        <td><%= index++ %></td>
+					                        <td><%= booking.getService() %></td>
+					                        <td><%= booking.getCategory() %></td>
+					                        <td><%= booking.getAppointmentTime() %></td>
+					                        <td>
+					                            <%
+					                                String status = booking.getStatus();
+					                                String badgeClass = "bg-info";
+					                                if ("confirmed".equalsIgnoreCase(status)) {
+					                                    badgeClass = "bg-success";
+					                                } else if ("pending".equalsIgnoreCase(status)) {
+					                                    badgeClass = "bg-warning text-dark";
+					                                } else if ("completed".equalsIgnoreCase(status)) {
+					                                    badgeClass = "bg-secondary";
+					                                }
+					                            %>
+					                            <span class="badge <%= badgeClass %>"><%= status %></span>
+					                        </td>
+					                        <td>$ <%= String.format("%.2f", booking.getPrice()) %></td>
+					                    </tr>
+					                <%
+					                    }
+					                %>
+					            </tbody>
+					        </table>
+					    <% } else { %>
+					        <div class="d-flex flex-column justify-content-center align-items-center text-center py-5">
+					            <h5 class="mb-2">No bookings yet</h5>
+					            <p class="text-muted mb-3">
+					                When you reserve a booking, it will appear here.
+					            </p>
+					            <!-- TODO: add redirect link -->
+					            <a href="window.location.href='#'" class="btn btn-success">
+					                <i class="bi bi-bookmark-heart"></i>&ensp;Make a booking
+					            </a>
+					        </div>
+					    <% } %>
+					</div>
+
+                </div>
+            </div>
+        </div>
+
     </div>
     
     <!-- form buttons enable/disable script -->
