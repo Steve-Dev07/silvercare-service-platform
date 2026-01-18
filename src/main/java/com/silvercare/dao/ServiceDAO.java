@@ -2,7 +2,6 @@ package com.silvercare.dao;
 
 import com.silvercare.dto.ServiceDTO;
 import com.silvercare.util.Db;
-import com.silvercare.util.TimeUtil;
 
 import java.util.*;
 import java.sql.*;
@@ -53,7 +52,7 @@ public class ServiceDAO {
 		String description = "";
 		double price = 0;
 		int imgIndex = 0;
-		String durationStr = "";
+		int duration = 0;
 		String createdTime = "";
 		String lastUpdatedTime = "";
 
@@ -72,9 +71,9 @@ public class ServiceDAO {
 				description = rs.getString("description");
 				price = rs.getFloat("price");
 				imgIndex = rs.getInt("img_index");
-				durationStr = TimeUtil.convertDuration(rs.getInt("duration"));
-				createdTime = TimeUtil.convertDate(rs.getString("created_on"));
-				lastUpdatedTime = TimeUtil.convertDate(rs.getString("last_updated_on"));
+				duration = rs.getInt("duration");
+				createdTime = rs.getString("created_on");
+				lastUpdatedTime = rs.getString("last_updated_on");
 			}
 			
 			conn.close();
@@ -85,6 +84,6 @@ public class ServiceDAO {
 	        System.out.println("SQL Message: " + e.getMessage());
 		}
 		
-		return new ServiceDTO(name, title, description, price, imgIndex, durationStr, createdTime, lastUpdatedTime);
+		return new ServiceDTO(name, title, description, price, imgIndex, duration, createdTime, lastUpdatedTime);
 	}
 }
