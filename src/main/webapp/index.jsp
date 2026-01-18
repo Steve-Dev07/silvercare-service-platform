@@ -4,14 +4,15 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<!-- includes bootstrap links -->
 <%@ include file="./components/header-config.html" %>
 <title>SilverCare | Premium Caregiving Services</title>
 </head>
 <body>
-	<!-- include client navBar.jsp -->
+	<!-- includes dynamic client navBar.jsp -->
 	<jsp:include page="./components/navBar.jsp"></jsp:include>
 	
-	<!-- first section: what we do -->
+	<!-- first section: What We Do -->
     <section class="py-5">
         <div class="container">
             <div class="row align-items-center gy-4">
@@ -37,7 +38,7 @@
         </div>
     </section>
 
-	<!-- second section: our services -->
+	<!-- second section: Our Services -->
     <section class="py-5 bg-white">
         <div class="container">
             <div class="row gy-4 align-items-center">
@@ -56,7 +57,7 @@
                         satisfying experience from start to finish. Choose us for reliable service, exceptional value, 
                         and results you can trust.
                     </p>
-                    <!-- button: redirects to serviceCategories.jsp -->
+                    <!-- Browse Services button: redirects to serviceCategories.jsp -->
                     <button style="
                         background-color: #2C2C2C;
                         color: white;
@@ -71,7 +72,7 @@
         </div>
     </section>
 
-	<!-- include client footer template -->
+	<!-- includes static client footer template -->
     <%@ include file="./components/footer.html" %>
 </body>
 </html>

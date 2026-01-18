@@ -1,13 +1,16 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
+<!-- includes bootstrap links -->
 <%@ include file="../components/header-config.html" %>
 <title>SilverCare | Register</title>
 </head>
 <body style="background-color: #1D3142;">
 	<style>
+		/* custom hover style on "Login" text link */
 		#login-text:hover {
 			cursor: pointer;
 			text-decoration: underline;
@@ -24,11 +27,13 @@
 		String notificationTitle = "";
 		String toastVisibility = "d-none";
 
+		// proceeds if register was done before and redirected from RegisterUserAccountServlet
 		if (registerSuccess != null) {
 			String message = (String) session.getAttribute("message");
 			// makes notification visible
 			toastVisibility = "d-block";
 
+			// displays notification depending on registerSuccess status
 			if (registerSuccess) {
 				notificationTitle = "Registration Successful";
 				notificationColor = "#077307";
@@ -46,17 +51,18 @@
 				notificationMessage = "<i class=\"bi bi-exclamation-triangle-fill\"></i>&ensp;" + message;
 			}
 
+			// removes the attribute after deciding register status
 			session.removeAttribute("registerSuccess");
 		}
 	%>
 
-	<!-- register card -->
     <div class="container mt-5">
         <div class="row justify-content-center align-items-center">
             <div class="col-md-6 col-lg-5 mb-4">
+            	<!-- register card in middle of the viewport -->
                 <div class="card p-4">
                     <h2 class="text-center">Register</h2>
-                    <!-- register form element (contains all input fields) -->
+                    <!-- login credentials submission form: redirects to RegisterUserAccountServlet -->
                     <form action="<%= request.getContextPath() %>/register-user" method="post">
                         <div class="mb-3">
                             <label for="username" class="form-label"><i class="bi bi-person-circle"></i>&ensp;Username</label>
@@ -101,7 +107,9 @@
     						</small>
                         </div>
                         <div style="height: 10px;"></div>
+                       	<!-- register account submit button: triggers the form onSubmit -->
                         <button type="submit" class="btn btn-primary w-100">Register account</button>
+                        <!-- text link to redirect to login.jsp page -->
                         <p class="mt-3">Already have an account? 
                         	<i id="login-text" style="color: blue;" onclick="window.location.href='./login.jsp'">Login</i>
                         </p>
@@ -115,7 +123,8 @@
 	<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 1055;">
 	    <div class="toast fade show <%= toastVisibility %>" role="alert" aria-live="assertive" aria-atomic="true">
 	        <div class="toast-header">
-	            <svg aria-hidden="true" class="bd-placeholder-img rounded me-2" height="20" preserveAspectRatio="xMidYMid slice" width="20" xmlns="http://www.w3.org/2000/svg">
+	            <svg aria-hidden="true" class="bd-placeholder-img rounded me-2" 
+	            	height="20" preserveAspectRatio="xMidYMid slice" width="20" xmlns="http://www.w3.org/2000/svg">
 	                <rect width="100%" height="100%" fill="<%= notificationColor %>"></rect>
 	            </svg>
 	            <strong class="me-auto" style="color: <%= notificationColor %>"><%= notificationTitle %></strong>
