@@ -62,6 +62,7 @@
       </ul>
 
 	  <!-- dynamic buttons list according to user login status (checked with session attribute "displayName") -->
+	  <!-- if user is admin, cart is replaced with dashboard -->
       <div class="d-flex">
         <%
           String sessionDisplayName = (String) session.getAttribute("displayName");
@@ -70,7 +71,13 @@
             out.print("<a href='./register.jsp' class='btn btn-primary'>Register</a>");
           } else {
             out.print("<a href='./profile.jsp' class='btn btn-outline-dark me-2'><i class='bi bi-person-circle'></i>&ensp;" + sessionDisplayName + "</a>");
-            out.print("<a href='./cart.jsp' class='btn btn-primary'><i class='bi bi-cart-check-fill'></i>&ensp;Cart</a>");
+
+        	Integer sessionRoleId = (Integer) session.getAttribute("roleId");
+        	if(sessionRoleId != null && sessionRoleId.intValue() == 2) {
+            	out.print("<a href='./admin/dashboard.jsp' class='btn btn-primary'><i class='bi bi-clipboard2-data'></i>&ensp;Dashboard</a>");
+        	} else {
+            	out.print("<a href='./cart.jsp' class='btn btn-primary'><i class='bi bi-cart-check-fill'></i>&ensp;Cart</a>");
+        	}
           }
         %>
       </div>
